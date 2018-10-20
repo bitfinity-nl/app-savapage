@@ -1,0 +1,35 @@
+---
+  # Title: cups-printers
+  #
+  # Author: Luc Rutten
+  # File: tasks/cups-printers.yml
+  #
+  # Description:
+  #   Adding printers via commandline via cups
+  #
+
+  - name: "Create ppd repository"
+    file:
+      path: /usr/share/ppd/savapage/
+      state: directory
+      owner: root
+      group: root
+      mode: 0755
+
+  - name: "Download PPD files to /usr/share/ppd/savapage/"
+    get_url:
+      url:  "{{ item.src }}"
+      dest: "{{ item.dest }}"
+    with_items:
+      - { src: 'http://nl-bel-cmd01/resource/printers/taskalfa-2551ci/linux/English/Kyocera%20TASKalfa%202551ci.PPD', dest: '/usr/share/ppd/savapage/Kyocera TASKalfa 2551ci.PPD' }
+
+  - name: "Configure printer via CLI (RAW)"
+    raw: lpadmin
+      "-p {{ item.name }}"
+      "-v socket://{{ item.ipaddress }}:9100"
+      "-m {{ item.model }}"
+      "-P {{ item.ppd }}"
+      "-L {{ item.location }}" 
+      "-E"
+    with_items:
+      - { name: 'printer01', ipaddress: '172.16.5.74', model: 'Kyocera TASKalfa 2551ci', ppd: /usr/share/ppd/savapage/Kyocera TASKalfa 2551ci.PPD, location: 'NL, Belfeld, Kerkberg9, Printhok' }      

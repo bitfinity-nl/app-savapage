@@ -1,0 +1,111 @@
+---
+  # Title: app-pagasave
+  #
+  # Author: Luc Rutten
+  # File: tasks/ubuntu-1804-amd64.yml
+  #
+  # Description:
+  #   Open print portal
+ 
+  - name: "1.2 Install ssystem requirements"
+    apt:
+      name: "{{ packages }}"
+      state: present
+    vars:
+      packages:
+      - openjdk-8-jdk
+      - cups
+      - cups-bsd
+      - poppler-utils
+      - imagemagick
+      - avahi-daemon 
+      - avahi-discover
+      - libnss-mdns
+      - binutils
+      - libreoffice-core
+#      - xpstopdf
+
+  - name: "Create system account"
+    user:
+      name: savapage
+      shell: /bin/bash
+      groups: sudo
+      system: yes
+      password: '{{ sava_password }}'
+      state: present
+
+  - name: "Create directory"
+    file:
+      path: /opt/savapage
+      state: directory
+      owner: savapage
+      group: savapage
+      mode: 0755
+
+  - name: "2.3.3 stop cups"
+    systemd:
+      name: cups
+      state: stopped
+
+  - name: "2.3.3 Transfer CUPS template"
+    template:
+      src: "{{ item.src }}" 
+      dest: "{{ item.dest }}" 
+    with_items:
+      - { src: 'cupsd.conf.j2', dest: '/etc/cups/cupsd.conf' }
+#      - { src: 'printers.conf.j2', dest: '/etc/cups/printers.conf' }
+      - { src: 'cups-browsed.conf.j2', dest: '/etc/cups/cups-browsed.conf' }
+      - { src: 'papersize.j2', dest: '/etc/papersize' }
+
+  - name: "start cups"
+    systemd:
+      name: cups
+      state: started
+
+  - name: "ufw allow incoming traffic on specific ports"
+    ufw:
+      rule: allow
+      port: "{{ item.port }}"
+      proto: "{{ item.proto }}"
+    with_items:
+      - { port: '631', proto: 'tcp' }
+      - { port: '5353', proto: 'udp' }
+      - { port: '25', proto: 'tcp' }
+      - { port: '465', proto: 'tcp' }
+      - { port: '587', proto: 'tcp' }
+      - { port: '143', proto: 'tcp' }
+      - { port: '993', proto: 'tcp' }
+      - { port: '8639', proto: 'tcp' }
+      - { port: '5222', proto: 'tcp' }
+   
+  - name: "Download installer"
+    get_url:
+      url: https://www.savapage.org/download/snapshots/savapage-setup-1.1.0-rc-linux-x64.bin
+      dest: /opt/savapage/savapage-setup-1.1.0-rc-linux-x64.bin
+      
+  - name: "Set permissions on installer"
+    file:
+      path: /opt/savapage/savapage-setup-1.1.0-rc-linux-x64.bin
+      owner: savapage
+      group: savapage
+      mode: 0755
+   
+  - name: "Extract savapage-setup-1.1.0-rc-linux-x64.bin to /opt/savapage/"
+    raw: sudo su savapage -c "cd / && /opt/savapage/savapage-setup-1.1.0-rc-linux-x64.bin -n"
+
+  - name: "Run installer"
+    raw: /opt/savapage/MUST-RUN-AS-ROOT
+
+  - name: "Back-up /opt/savapage/server/data/encryption.properties"
+    copy:
+      src: /opt/savapage/server/data/encryption.properties
+      dest: /opt/encryption.properties
+      remote_src: yes
+      backup: yes
+
+  - name: "2.3.3 Transfer savapage template"
+    template:
+      src: "{{ item.src }}" 
+      dest: "{{ item.dest }}" 
+    with_items:
+      - { src: 'server.properties.j2', dest: '/opt/savapage/server/server.properties.j2' }

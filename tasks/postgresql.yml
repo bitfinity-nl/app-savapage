@@ -1,0 +1,38 @@
+---
+  # Title: app-pagasave
+  #
+  # Author: Luc Rutten
+  # File: tasks/postgresql.yml
+  #
+  # Description:
+  #   Open print portal postgresql configuration.
+
+  - name: "Check version of postgresql in /etc/postgresql"
+    shell: "ls /etc/postgresql/" 
+    register: pgdb_version
+
+  - name: "Display version of postgresql in /etc/postgresql"
+    debug:
+      var: pgdb_version.stdout
+
+#  - name: "Transfer template //pg_hba.conf"  
+#    template:
+#      src: postgresql/pg_hba.conf.j2
+#      dest: "/etc/postgresql/{{ pgdb_version.stdout }}/main/pg_hba.conf"
+#      owner: postgres
+#      group: postgres
+#      mode: 0644
+#      backup: yes
+#    notify:
+#      - restart_postgresql
+
+  - name: "Create savapage database"
+    postgresql_db:
+      name: savapage
+
+  - name: "Create savapage database user"
+    postgresql:
+      db: savapage
+      name: savapage
+      password: "{{ sava_db_password }}"
+      priv: ALL

@@ -1,0 +1,17 @@
+---
+  # Title: app-pagasave
+  #
+  # Author: Luc Rutten
+  # File: tasks/main.yml
+  #
+  # Description:
+  #   Open print portal
+  
+  - name: "For OS: Ubuntu 18.04LTS, Arch: amd64"
+    import_tasks: ubuntu-1804-amd64.yml
+    when:
+      - ansible_distribution_version == "18.04"
+      - ansible_architecture == "x86_64"
+
+#  - name: "Configure CUPS"
+#    import_tasks: cups-printers.yml

@@ -1,0 +1,17 @@
+---
+  # defaults file for app-pagasave
+  # 
+  # Author: Luc Rutten
+  # File: defaults/main.yml
+
+
+  # -- SavaPage --
+  #
+  #  Variable(s): 
+  #
+  #    sava_password: 'Pr1nting'      # Password for the savapage system account
+
+  sava_password    : '$6$Sw9NqVIu$vrEQSYGDgJ05HoKvkOBFrUhA9xOKUgPR1tdJPjtNOtKINWcOA4dsYwHLSoy2/k9KS6o.GZwpx6y.gK/6MwK361'
+
+
+  sava_db_password : 'savapage'  
