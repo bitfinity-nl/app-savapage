@@ -26,13 +26,18 @@
 #    notify:
 #      - restart_postgresql
 
-  - name: "Create savapage database"
-    postgresql_db:
-      name: savapage
+  - name: "Transfer template postgresql/postgresql.sh.j2 to /tmp/postgresql.sh"
+    template:
+      src: postgresql/postgresql.sh.j2
+      dest: "/tmp/postgresql.sh"
+      owner: root
+      group: root
+      mode: 0755
 
-  - name: "Create savapage database user"
-    postgresql:
-      db: savapage
-      name: savapage
-      password: "{{ sava_db_password }}"
-      priv: ALL
+  - name: "Execute /tmp/postgresql.sh to create {{ sava_pgdb_dbuser }} and {{ sava_pgdb_dbname }}"
+    command: /tmp/postgresql.sh
+
+  - name: "Cleanup /tmp/postgresql.sh"
+    file:
+      path: "/tmp/postgresql.sh"
+      state: absent

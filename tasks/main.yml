@@ -13,5 +13,10 @@
       - ansible_distribution_version == "18.04"
       - ansible_architecture == "x86_64"
 
+  - name: "Enable postgresql support"
+    import_tasks: postgresql.yml
+    when:
+      - sava_pgdb_state == "enabled"
+
 #  - name: "Configure CUPS"
 #    import_tasks: cups-printers.yml

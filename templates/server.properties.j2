@@ -134,11 +134,11 @@ pgp.publickey.server.url.get=https://pgp.mit.edu/pks/lookup?op=get&search=0x{0}
 database.type=Internal
 
 # PostgreSQL connection example
-#database.type=PostgreSQL
-#database.driver=org.postgresql.Driver
-#database.url=jdbc:postgresql://localhost/savapage
-#database.user=savapage
-#database.password=
+database.type=PostgreSQL
+database.driver=org.postgresql.Driver
+database.url=jdbc:postgresql://localhost/savapage
+database.user={{ sava_pgdb_dbuser }}
+database.password={{ sava_pgdb_dbpass }}
 
 #------------------------------------------------------------
 # Web App Settings

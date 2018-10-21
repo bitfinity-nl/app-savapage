@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# Author: Luc Rutten
+#
+# Description:
+#   Check if database and user allready exist
+
+dbname={{ sava_pgdb_dbname }}
+dbuser={{ sava_pgdb_dbuser }}
+dbpass={{ sava_pgdb_dbpass }}
+
+# Check if database $dbname exist.
+dbname_result=$(sudo su postgres -c "psql -l | cut -f 1 -d '|' | grep $dbname")
+
+# Check if database user $dbuser exists.
+dbuser_result=$(sudo su postgres -c "psql -U postgres -d postgres -c \"\du;\"" | cut -f 1 -d '|' | grep $dbuser)
+
+# Print results to screen.
+echo "result dbname: $dbname_result"
+echo "result dbuser: $dbuser_result"
+
+# Create user if not exists.
+if [ -z "$dbuser_result" ];
+then
+  echo "$dbuser not exists, create user."
+  sudo su postgres -c "psql -U postgres -d postgres -c \"CREATE USER $dbuser WITH PASSWORD '$dbpass';\""
+else
+  echo "$dbuser exists, do nothing."
+fi
+
+# Create database if not exists.
+if [ -z "$dbname_result" ];
+then
+  echo "$dbname not exists, create database."
+  sudo su postgres -c "psql -U postgres -d postgres -c \"CREATE DATABASE $dbname OWNER $dbuser;\""
+  echo "stop savapage"
+  sudo systemctl stop savapage
+  echo "Initialize database"
+  sudo su savapage -c "/opt/savapage/server/bin/linux-x64/savapage-db --db-init"
+  echo "start savapage"
+  sudo systemctl start savapage
+else
+  echo "$dbname exists, do nothing."
+fi
+
+

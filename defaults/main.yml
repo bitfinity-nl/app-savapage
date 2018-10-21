@@ -14,4 +14,18 @@
   sava_password    : '$6$Sw9NqVIu$vrEQSYGDgJ05HoKvkOBFrUhA9xOKUgPR1tdJPjtNOtKINWcOA4dsYwHLSoy2/k9KS6o.GZwpx6y.gK/6MwK361'
 
 
-  sava_db_password : 'savapage'  
+  # -- savapage: postgresql --
+  #
+  # Variable(s)
+  #   sava_pgdb_state  : 'disabled' or 'enabled'   # Whether PostgreSQL is used or not.
+  #   sava_pgdb_dbname : 'savapage'                # Name of the savapage database.
+  #   sava_pgdb_dbuser : 'savapage'                # Username of the savapage databasename.
+  #   sava_pgdb_dbpass : 'savapage'                # Password of the savapage databasename.
+  #
+  #   
+  sava_pgdb_state  : 'disabled'
+  sava_pgdb_dbname : 'savapage'
+  sava_pgdb_dbuser : 'savapage'
+  sava_pgdb_dbpass : 'savapage'  
+
+  

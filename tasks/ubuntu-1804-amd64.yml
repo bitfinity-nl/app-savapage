@@ -23,7 +23,7 @@
       - libnss-mdns
       - binutils
       - libreoffice-core
-#      - xpstopdf
+      - libgxps-utils
 
   - name: "Create system account"
     user:
@@ -108,4 +108,4 @@
       src: "{{ item.src }}" 
       dest: "{{ item.dest }}" 
     with_items:
-      - { src: 'server.properties.j2', dest: '/opt/savapage/server/server.properties.j2' }
+      - { src: 'server.properties.j2', dest: '/opt/savapage/server/server.properties' }
