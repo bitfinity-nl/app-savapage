@@ -10,7 +10,7 @@
   #  Variable(s): 
   #
   #    sava_password: 'Pr1nting'      # Password for the savapage system account
-
+  #
   sava_password    : '$6$Sw9NqVIu$vrEQSYGDgJ05HoKvkOBFrUhA9xOKUgPR1tdJPjtNOtKINWcOA4dsYwHLSoy2/k9KS6o.GZwpx6y.gK/6MwK361'
 
 
@@ -28,4 +28,35 @@
   sava_pgdb_dbuser : 'savapage'
   sava_pgdb_dbpass : 'savapage'  
 
-  
+  # -- savapage: cups - install ppd files --
+  #
+  # Howto:
+  #   Copy the ppd files to a webserver and copy the example to a playbook and change for your needs.
+  #
+  # * Store the PPD files in this path /usr/share/ppd/savapage/
+  #
+  # Example:
+  #   sava_cups_ppd:
+  #     - { src: 'http://webserver.drivers.net/resource/printers/taskalfa-2551ci/linux/English/Kyocera%20TASKalfa%202551ci.PPD',
+  #         dest: '/usr/share/ppd/savapage/Kyocera TASKalfa 2551ci.PPD' }
+
+  # -- savapage: cups - add printers --
+  #
+  # Howto:
+  #   Copy the example to the playbook as a variable and change to your needs.
+  # 
+  # * Store the PPD files in this path /usr/share/ppd/savapage/
+  #
+  # Example:
+  #   sava_cups_printers:  
+  #     - { name: 'printer01',
+  #         ipaddress: '192.168.5.1',                                                                                                                                                                                                         
+  #         model: 'Kyocera TASKalfa 2551ci',                                                                                                                                                                                                 
+  #         ppd: /usr/share/ppd/savapage/Kyocera TASKalfa 2551ci.PPD,                                                                                                                                                                         
+  #         location: 'Office 1' }
+  #
+  #     - { name: 'printer02',
+  #         ipaddress: '192.168.5.1',                                                                                                                                                                                                  $
+  #         model: 'Kyocera TASKalfa 2551ci',                                                                                                                                                                                          $
+  #         ppd: /usr/share/ppd/savapage/Kyocera TASKalfa 2551ci.PPD,                                                                                                                                                                  $
+  #         location: 'Office 2' }

@@ -18,5 +18,5 @@
     when:
       - sava_pgdb_state == "enabled"
 
-#  - name: "Configure CUPS"
-#    import_tasks: cups-printers.yml
+  - name: "Configure CUPS"
+    import_tasks: cups-printers.yml
