@@ -14,6 +14,11 @@
   #    sava_installer  : 'savapage-setup-1.1.0-rc-linux-x64.bin'                                               # Name of the installer.
   #    sava_password   : 'Pr1nting'                                                                            # Password for the savapage system account.
   #
+  #  Additional information.
+  #    Use the urls below to generate the password for savapage user (sava_password)
+  #    - https://docs.ansible.com/ansible/2.5/modules/user_module.html
+  #    - https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module
+  #
   sava_url             : 'https://www.savapage.org/download/snapshots/savapage-setup-1.1.0-rc-linux-x64.bin'
   sava_installer       : 'savapage-setup-1.1.0-rc-linux-x64.bin'
   sava_password        : '$6$Sw9NqVIu$vrEQSYGDgJ05HoKvkOBFrUhA9xOKUgPR1tdJPjtNOtKINWcOA4dsYwHLSoy2/k9KS6o.GZwpx6y.gK/6MwK361'
