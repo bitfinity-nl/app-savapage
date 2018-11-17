@@ -1,22 +1,28 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+SavaPage is an Open Print Portal that uses Open Standards and Commodity Hardware for Secure Pull-Printing, Pay-Per-Print, Delegated Print, Job Ticketing, Auditing and PDF Creation.
+Requirements
+
+Sources and credits goes to:
+- https://www.savapage.org/
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+- Ubuntu 18.04LTS
+- Postgresql
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+See default/main.yml for detailed information.
+
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+- app-postgresql
 
 Example Playbook
 ----------------
@@ -27,12 +33,44 @@ Including an example of how to use your role (for instance, with variables passe
       roles:
          - { role: username.rolename, x: 42 }
 
+    - hosts: savapaga-srv01
+      become: true
+
+      vars:
+
+        # -- custom settings: app-savapage (postgresql) --
+        sava_pgdb_state : 'enabled'
+        sava_cups_ppd:
+          - { src: 'http://download.example.com/resource/printers/taskalfa-2551ci/linux/English/Kyocera%20TASKalfa%202551ci.PPD',
+              dest: '/usr/share/ppd/savapage/Kyocera TASKalfa 2551ci.PPD' }
+
+        sava_cups_printers:
+          - { name: 'printer1',
+              ipaddress: '192.168.1.2',
+              model: 'Kyocera TASKalfa 2551ci',
+              ppd: /usr/share/ppd/savapage/Kyocera TASKalfa 2551ci.PPD,
+              location: 'Office1' }
+          - { name: 'printer2',
+              ipaddress: '192.168.1.3',
+              model: 'Kyocera TASKalfa 2551ci',
+              ppd: /usr/share/ppd/savapage/Kyocera TASKalfa 2551ci.PPD,
+              location: 'Office2' }
+
+      roles:
+        - app-postgresql
+        - app-savapage
+
+
+
+
 License
 -------
 
-BSD
+GPLv3
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+E: lrutten@bitfinity.nl
+
+I: https://www.bitfinity.nl

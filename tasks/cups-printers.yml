@@ -1,12 +1,11 @@
 ---
-  # Title: cups-printers
+  # Title: app-savapage
   #
   # Author: Luc Rutten
   # File: tasks/cups-printers.yml
   #
   # Description:
-  #   Adding printers via commandline via cups
-  #
+  #   Adding printers via commandline via cups.
 
   - name: "Create ppd repository"
     file:

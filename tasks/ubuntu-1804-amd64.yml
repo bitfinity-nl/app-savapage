@@ -1,11 +1,12 @@
 ---
-  # Title: app-pagasave
+  # Title: app-savapage
   #
   # Author: Luc Rutten
   # File: tasks/ubuntu-1804-amd64.yml
   #
   # Description:
-  #   Open print portal
+  #   Open source print portal
+
  
   - name: "1.2 Install ssystem requirements"
     apt:
@@ -24,6 +25,7 @@
       - binutils
       - libreoffice-core
       - libgxps-utils
+      - jodconverter
 
   - name: "Create system account"
     user:
@@ -77,21 +79,26 @@
       - { port: '993', proto: 'tcp' }
       - { port: '8639', proto: 'tcp' }
       - { port: '5222', proto: 'tcp' }
-   
+      - { port: '8632', proto: 'tcp' }
+      - { port: '8631', proto: 'tcp' }   
+
   - name: "Download installer"
     get_url:
-      url: https://www.savapage.org/download/snapshots/savapage-setup-1.1.0-rc-linux-x64.bin
-      dest: /opt/savapage/savapage-setup-1.1.0-rc-linux-x64.bin
+      url: "{{ sava_url }}"
+      dest: "/opt/savapage/{{ sava_installer }}"
+#      url: https://www.savapage.org/download/snapshots/savapage-setup-1.1.0-rc-linux-x64.bin
+#      dest: /opt/savapage/savapage-setup-1.1.0-rc-linux-x64.bin
       
   - name: "Set permissions on installer"
     file:
-      path: /opt/savapage/savapage-setup-1.1.0-rc-linux-x64.bin
+#      path: /opt/savapage/savapage-setup-1.1.0-rc-linux-x64.bin
+      path: "/opt/savapage/{{ sava_installer }}"
       owner: savapage
       group: savapage
       mode: 0755
    
-  - name: "Extract savapage-setup-1.1.0-rc-linux-x64.bin to /opt/savapage/"
-    raw: sudo su savapage -c "cd / && /opt/savapage/savapage-setup-1.1.0-rc-linux-x64.bin -n"
+  - name: "Extract {{ sava_installer }} to /opt/savapage/"
+    raw: sudo su savapage -c "cd / && /opt/savapage/{{ sava_installer }} -n"
 
   - name: "Run installer"
     raw: /opt/savapage/MUST-RUN-AS-ROOT

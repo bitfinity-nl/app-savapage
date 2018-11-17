@@ -1,17 +1,23 @@
 ---
-  # defaults file for app-pagasave
+  # Title: app-savapage
   # 
   # Author: Luc Rutten
   # File: defaults/main.yml
-
+  #
+  # Description:
+  #   Open source print portal
 
   # -- SavaPage --
   #
   #  Variable(s): 
+  #    sava_url        : 'https://www.savapage.org/download/snapshots/savapage-setup-1.1.0-rc-linux-x64.bin'   # Url where the installer can be found.
+  #    sava_installer  : 'savapage-setup-1.1.0-rc-linux-x64.bin'                                               # Name of the installer.
+  #    sava_password   : 'Pr1nting'                                                                            # Password for the savapage system account.
   #
-  #    sava_password: 'Pr1nting'      # Password for the savapage system account
-  #
-  sava_password    : '$6$Sw9NqVIu$vrEQSYGDgJ05HoKvkOBFrUhA9xOKUgPR1tdJPjtNOtKINWcOA4dsYwHLSoy2/k9KS6o.GZwpx6y.gK/6MwK361'
+  sava_url             : 'https://www.savapage.org/download/snapshots/savapage-setup-1.1.0-rc-linux-x64.bin'
+  sava_installer       : 'savapage-setup-1.1.0-rc-linux-x64.bin'
+  sava_password        : '$6$Sw9NqVIu$vrEQSYGDgJ05HoKvkOBFrUhA9xOKUgPR1tdJPjtNOtKINWcOA4dsYwHLSoy2/k9KS6o.GZwpx6y.gK/6MwK361'
+
 
 
   # -- savapage: postgresql --
@@ -22,11 +28,12 @@
   #   sava_pgdb_dbuser : 'savapage'                # Username of the savapage databasename.
   #   sava_pgdb_dbpass : 'savapage'                # Password of the savapage databasename.
   #
-  #   
-  sava_pgdb_state  : 'disabled'
-  sava_pgdb_dbname : 'savapage'
-  sava_pgdb_dbuser : 'savapage'
-  sava_pgdb_dbpass : 'savapage'  
+  sava_pgdb_state      : 'disabled'
+  sava_pgdb_dbname     : 'savapage'
+  sava_pgdb_dbuser     : 'savapage'
+  sava_pgdb_dbpass     : 'savapage'  
+
+
 
   # -- savapage: cups - install ppd files --
   #
@@ -39,6 +46,8 @@
   #   sava_cups_ppd:
   #     - { src: 'http://webserver.drivers.net/resource/printers/taskalfa-2551ci/linux/English/Kyocera%20TASKalfa%202551ci.PPD',
   #         dest: '/usr/share/ppd/savapage/Kyocera TASKalfa 2551ci.PPD' }
+
+
 
   # -- savapage: cups - add printers --
   #
